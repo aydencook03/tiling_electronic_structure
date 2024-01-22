@@ -1,2 +1,2 @@
-# Tilining Electronic Structure
+# Tiling Electronic Structure
 Investigating the electronic structure of different tilings.
