@@ -1,9 +1,9 @@
 from vec import Vec
 
 class Particle:
-    def __init__(self, id = 0, groups = {}, pos = Vec(0,0,0), vel = Vec(0,0,0), mass = 1.):
+    def __init__(self, id = 0, groups = {}, pos = Vec(0.,0.,0.), vel = Vec(0.,0.,0.), mass = 1.):
         # identity
-        self.id = id
+        self.id = int(id)
         self.groups = groups
 
         # state
@@ -11,13 +11,13 @@ class Particle:
         self.vel = vel
 
         # dynamics
-        self.mass = mass
+        self.mass = float(mass)
         self.inverse_mass = 1./self.mass if self.mass != 0. else 0.
         self.prev_pos = self.pos
         self.forces = []
 
     def integrate(self, dt):
-        total_force = Vec(0,0,0)
+        total_force = Vec(0.,0.,0.)
 
         for force in self.forces:
             total_force += force
@@ -27,12 +27,9 @@ class Particle:
         self.pos += self.vel * dt
 
     def add_force(self, force):
-        self.forces.push(force)
+        self.forces.append(force)
 
-    def clear_forces(self):
-        self.forces.clear()
-
-    def add_displacement(self, displacement, as_force = false, dt = 0.):
+    def add_displacement(self, displacement, as_force = False, dt = 0.):
         if not as_force:
             self.pos += displacement
         else:
