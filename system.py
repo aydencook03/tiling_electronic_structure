@@ -36,6 +36,8 @@ class System:
 
         return particles
 
+    #def static_constraint_pass(self, iterations):
+
     def step_forward(self, dt):
         if not self.running or dt == 0.:
             return False
