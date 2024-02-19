@@ -6,26 +6,45 @@ class System:
         self.substeps = 5
 
         self.particles = []
-        #self.interactions
-        #self.constraints
+        self.interactions = []
+        self.constraints = []
 
         self.id_counter = 0
 
-    def add_particle(self, particle):
-        particle.id = self.id_counter
-        self.particles.append(particle)
-        self.id_counter += 1
-
-        return particle
-
     def add_particles(self, particles):
-        for particle in particles:
-            self.add_particle(particle)
+        particle_iter = particles
+
+        if not hasattr(particle_iter, "__iter__"):
+            particle_iter = [particle_iter]
+
+        for particle in particle_iter:
+            particle.id = self.id_counter
+            self.particles.append(particle)
+            self.id_counter += 1
 
         return particles
 
-    #def add_interaction
-    #def add_constraint
+    def add_interactions(self, interactions):
+        interaction_iter = interactions
+
+        if not hasattr(interaction_iter, "__iter__"):
+            interaction_iter = [interaction_iter]
+        
+        for interaction in interaction_iter:
+            self.interactions.append(interaction)
+
+        return interactions
+
+    def add_constraints(self, constraints):
+        constraint_iter = constraints
+
+        if not hasattr(constraint_iter, "__iter__"):
+            constraint_iter = [constraint_iter]
+        
+        for constraint in constraint_iter:
+            self.constraints.append(constraint)
+
+        return constraints
 
     def particles_in_group(self, group):
         particles = []
@@ -36,7 +55,10 @@ class System:
 
         return particles
 
-    #def static_constraint_pass(self, iterations):
+    def static_constraint_pass(self, iterations):
+        for i in range(iterations):
+            for constraint in self.constraints:
+                constraint.project(None, True)
 
     def step_forward(self, dt):
         if not self.running or dt == 0.:
@@ -45,13 +67,15 @@ class System:
         sub_dt = dt / self.substeps
 
         for i in range(self.substeps):
-            #handle interactions
+            for interaction in self.interactions:
+                interaction.handle(sub_dt)
 
             for particle in self.particles:
                 particle.integrate(sub_dt)
                 particle.forces.clear()
 
-            #project constraints
+            for constraint in self.constraints:
+                constraint.project(sub_dt, False)
 
             for particle in self.particles:
                 particle.update_vel(sub_dt)
