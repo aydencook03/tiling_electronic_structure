@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 ###############################################
 
 system = System()
-vertices, edges = tilings.square(Vec(0,0,0), Vec(0,0,1), 1, 5, 5)
+vertices, edges = tilings.square(Vec(0,0,0), 1, 5, 5)
 system.add_particles(vertices)
 
 ###############################################

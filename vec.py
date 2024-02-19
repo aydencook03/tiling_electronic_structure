@@ -1,4 +1,4 @@
-from math import sin, cos, sqrt
+from math import sin, cos, sqrt, acos
 
 class Vec:
     def __init__(self, x, y, z):
@@ -14,6 +14,9 @@ class Vec:
 
     def cross(vec1, vec2):
         return Vec(vec1.y*vec2.z - vec1.z*vec2.y, vec1.z*vec2.x - vec1.x*vec2.z, vec1.x*vec2.y - vec1.y*vec2.x)
+
+    def angle_between(vec1, vec2):
+        return acos(Vec.dot(vec1, vec2)/(vec1.mag()*vec2.mag()))
 
     def mag_squared(self):
         return Vec.dot(self, self)

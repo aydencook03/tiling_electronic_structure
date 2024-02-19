@@ -7,5 +7,5 @@ class Interaction:
         pass
 
 class Link(Interaction):
-    def __init__(self, particle_1, particle_2):
-        super().__init__((particle_1, particle_2))
+    def __init__(self, particle1, particle2):
+        super().__init__((particle1, particle2))
