@@ -5,15 +5,8 @@ from vec import Vec
 from particle import Particle
 from interaction import Link
 
-from math import sin, cos, tan, pi, atan2
-
-# Model() defaults
-WIDTH = 10
-HEIGHT = 10
-SCALE = 10
-
 def normalize(x, y):
-    return (round(x, 6), round(y, 6))
+    return (round(x, 10), round(y, 10))
 
 def inset_corner(p1, p2, p3, margin):
     (x1, y1), (x2, y2), (x3, y3) = (p1, p2, p3)
@@ -75,7 +68,7 @@ class Shape(object):
         return Shape(sides, x, y, a, **kwargs)
 
 class Model(object):
-    def __init__(self, width=WIDTH, height=HEIGHT, scale=SCALE):
+    def __init__(self, width=10, height=10, scale=10):
         self.width = width
         self.height = height
         self.scale = scale
