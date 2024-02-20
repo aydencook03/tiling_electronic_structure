@@ -1,16 +1,16 @@
 # Adapted from https://github.com/fogleman/Tiling
 
 from math import sin, cos, tan, pi, atan2
-from particle import Particle
 from vec import Vec
+from particle import Particle
+from interaction import Link
 
 from math import sin, cos, tan, pi, atan2
-import cairo
 
 # Model() defaults
-WIDTH = 1024
-HEIGHT = 1024
-SCALE = 64
+WIDTH = 10
+HEIGHT = 10
+SCALE = 10
 
 def normalize(x, y):
     return (round(x, 6), round(y, 6))
@@ -85,6 +85,7 @@ class Model(object):
         self.shapes.append(shape)
         key = normalize(shape.x, shape.y)
         self.lookup[key] = shape
+        return len(self.shapes) - 1
     def _add(self, index, edge, sides, **kwargs):
         parent = self.shapes[index]
         shape = parent.adjacent(sides, edge, **kwargs)
@@ -134,14 +135,24 @@ class Model(object):
             if tl and tr and bl and br:
                 break
             depth += 1
-    def to_particles(self):
-        vertex_positions = set()
-        for shape in self.shapes:
+    def particles(self):
+        vertices = set()
+        for shape in self.lookup.values():
             for point in shape.points():
-                vertex_positions.add(normalize(*point))
+                vertices.add(normalize(*point))
 
         particles = []
-        for vertex in vertex_positions:
+        for vertex in vertices:
             particles.append(Particle(pos=Vec(vertex[0], vertex[1], 0)))
 
         return particles
+    def edges(self):
+        edges = set()
+        for shape in self.lookup.values():
+            points = shape.points()
+            for i in range(len(points) - 1):
+                start_point = normalize(*points[i])
+                end_point = normalize(*points[i + 1])
+                edge = (start_point, end_point)
+                edges.add(edge)
+        return list(edges)

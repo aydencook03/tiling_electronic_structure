@@ -1,7 +1,7 @@
 from vec import Vec
 
 class Particle:
-    def __init__(self, id = 0, groups = {}, pos = Vec(0.,0.,0.), vel = Vec(0.,0.,0.), mass = 1.):
+    def __init__(self, id = 0, groups = set(), pos = Vec(0.,0.,0.), vel = Vec(0.,0.,0.), mass = 1.):
         # identity
         self.id = int(id)
         self.groups = groups
