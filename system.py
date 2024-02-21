@@ -53,11 +53,28 @@ class System:
 
     def particles_in_group(self, group):
         particles = set()
-
         for particle in self.particles:
             if group in particle.groups:
                 particles.add(particle)
-
         return particles
+
+    def render(self, pyplot, color="black", debug=False, title="Tiling"):
+        figure = pyplot.figure(title)
+        axes = figure.add_subplot()
+        for particle in self.particles:
+            pos = particle.pos
+            axes.scatter(pos.x, pos.y, color=color)
+        for link in self.links:
+            x = [part.pos.x for part in link.particles]
+            y = [part.pos.y for part in link.particles]
+            axes.plot(x, y, color=color)
+        axes.set_xlabel('x')
+        axes.set_ylabel('y')
+        axes.set_aspect("equal")
+        if debug:
+            print("Particle Count: {}".format(len(self.particles)))
+            print("Link Count: {}".format(len(self.links)))
+        pyplot.show()
+
 
 ##############################################################################################

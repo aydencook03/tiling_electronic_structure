@@ -51,10 +51,7 @@ class Shape(object):
 
 
 class Tiling(object):
-    def __init__(self, width=10, height=10, scale=10):
-        self.width = width
-        self.height = height
-        self.scale = scale
+    def __init__(self):
         self.shapes = set()
 
     def add(self, shape):
@@ -73,36 +70,6 @@ class Tiling(object):
         for shape in duplicates:
             self.add(shape)
         return duplicates
-
-    def _repeat(self, indexes, x, y, depth, memo):
-        if depth < 0:
-            return
-        key = normalize(x, y)
-        previous_depth = memo.get(key, -1)
-        if previous_depth >= depth:
-            return
-        memo[key] = depth
-        if previous_depth == -1:
-            self.add_repeats(x, y)
-        for index in indexes:
-            shape = self.shapes[index]
-            self._repeat(
-                indexes, x + shape.x, y + shape.y, depth - 1, memo)
-
-    def repeat(self, indexes):
-        memo = {}
-        depth = 0
-        while True:
-            self._repeat(indexes, 0, 0, depth, memo)
-            w = self.width / 2.0 / self.scale
-            h = self.height / 2.0 / self.scale
-            tl = any(x < -w and y < -h for x, y in memo)
-            tr = any(x > w and y < -h for x, y in memo)
-            bl = any(x < -w and y > h for x, y in memo)
-            br = any(x > w and y > h for x, y in memo)
-            if tl and tr and bl and br:
-                break
-            depth += 1
 
     def to_system(self):
         particles = set()
