@@ -35,7 +35,8 @@ class Shape(object):
         dist_to_center = 1 / (2*tan(pi / side_count))
         new_pos = edge_midpoint + \
             Vec.new_polar(dist_to_center, edge_angle - pi / 2)
-        new_angle = edge_angle + pi / side_count
+        # point perpendicular to edge, then if it's even sided adjust by an amount of the internal angle
+        new_angle = edge_angle - pi/2 - ((side_count - 1) % 2)*pi/side_count
         return Shape(side_count, pos=new_pos, rotation=new_angle)
 
     def __eq__(self, other):
