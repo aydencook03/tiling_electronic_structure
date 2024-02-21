@@ -1,6 +1,6 @@
 # Inspired by https://github.com/fogleman/Tiling
 
-from math import pi, tan
+from math import pi, tan, sin
 from vec import Vec
 from system import Particle, Link
 
@@ -21,22 +21,22 @@ class Shape(object):
         step_angle = 2*pi / self.side_count
         for i in range(self.side_count):
             angle = self.rotation + i*step_angle
-            pos = self.pos + Vec.new_polar(1, angle)
+            pos = self.pos + \
+                Vec.new_polar(1 / (2*sin(pi/self.side_count)), angle)
             points.append(pos)
         return points
 
-    def adjacent(self, side_count, edge):
+    def adjacent(self, edge, side_count):
         points = self.points()
         point_1, point_2 = points[edge], points[(edge + 1) % self.side_count]
         edge_midpoint = (point_1 + point_2) / 2
         edge_vector = point_2 - point_1
         edge_angle = edge_vector.angle()
-        edge_length = edge_vector.mag()
-        dist_to_center = edge_length / (2*tan(pi / side_count))
+        dist_to_center = 1 / (2*tan(pi / side_count))
         new_pos = edge_midpoint + \
-            Vec.new_polar(dist_to_center, edge_angle + pi / 2)
+            Vec.new_polar(dist_to_center, edge_angle - pi / 2)
         new_angle = edge_angle + pi / side_count
-        return Shape(side_count, new_pos, new_angle)
+        return Shape(side_count, pos=new_pos, rotation=new_angle)
 
     def __eq__(self, other):
         return (self.side_count == other.side_count and
@@ -60,17 +60,17 @@ class Tiling(object):
         self.shapes.add(shape)
         return shape
 
-    def add_adjacent(self, to_shape, side_count, edge):
-        new_shape = to_shape.adjacent(side_count, edge)
+    def add_adjacent(self, to_shape, edge, side_count):
+        new_shape = to_shape.adjacent(edge, side_count)
         self.add(new_shape)
         return new_shape
 
     def duplicate(self, offset):
         duplicates = []
         for shape in self.shapes:
-            dublicate = shape.copy(shape.pos + offset)
-            self.add(duplicate)
-            duplicates.append(duplicate)
+            duplicates.append(shape.copy(shape.pos + offset))
+        for shape in duplicates:
+            self.add(shape)
         return duplicates
 
     def _repeat(self, indexes, x, y, depth, memo):
@@ -103,10 +103,16 @@ class Tiling(object):
                 break
             depth += 1
 
-    def particles(self):
-        pass
-
-    def links(self):
-        pass
-
+    def to_system(self):
+        particles = set()
+        links = set()
+        for shape in self.shapes:
+            points = shape.points()
+            for i, point in enumerate(points):
+                start = Particle(pos=point)
+                end = Particle(pos=points[(i+1) % shape.side_count])
+                particles.update((start, end))
+                links.add(Link(start, end))
+            links.add(Link(Particle(pos=points[0]), Particle(pos=points[-1])))
+        return (particles, links)
 ##############################################################################################

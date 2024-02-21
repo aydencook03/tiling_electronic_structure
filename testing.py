@@ -1,63 +1,45 @@
 from vec import Vec
-from particle import Particle
 from system import System
+from tiling import Shape, Tiling
 
 import matplotlib.pyplot as plt
 
-from tile import Model, Shape
-
 ###############################################
 
-model = Model(width=10, height=10, scale=10)
+tiling = Tiling(width=10, height=10, scale=10)
+hexagon = tiling.add(Shape(5))
+for i in range(5):
+    square = tiling.add_adjacent(hexagon, i, 3)
+    #triangle = tiling.add_adjacent(square, 3, 3)
 
-"""
-center_triangle = model.append(Shape(3))
-triangles = model.add(center_triangle, range(3), 3)
-model.repeat(triangles)
-"""
-
-
-center_square = model.append(Shape(4))
-squares = model.add(center_square, range(4), 4)
-model.repeat(squares)
-
-
-"""
-center_hexagon = model.append(Shape(6))
-squares = model.add(center_hexagon, range(6), 4)
-triangles = model.add(squares, 1, 3)
-hexagons = model.add(squares, 2, 6)
-model.repeat(hexagons)
-"""
-
-vertices = model.particles()
-edges = model.edges()
+particles, links = tiling.to_system()
 
 ###############################################
 
 system = System()
-system.add_particles(vertices)
+system.add_particles(particles)
+system.add_links(links)
 
 ###############################################
 
 fig = plt.figure()
 ax = fig.add_subplot(projection='3d')
-ax.set_aspect("equal")
 
 for particle in system.particles:
     pos = particle.pos
-    ax.scatter(pos.x, pos.y, pos.z, color="black")
+    ax.scatter(pos.x, pos.y, 0, color="black")
 
-for edge in edges:
-    x = [edge[0][0], edge[1][0]]
-    y = [edge[0][1], edge[1][1]]
+for link in system.links:
+    x = [part.pos.x for part in link.particles]
+    y = [part.pos.y for part in link.particles]
     z = [0, 0]
     ax.plot(x, y, z, color="black")
 
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
+ax.set_aspect("equal")
 
 print(len(system.particles))
-print(len(edges))
+print(len(system.links))
 plt.show()
