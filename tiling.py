@@ -111,4 +111,5 @@ class Tiling(object):
                 links.add(Link(start, end))
             links.add(Link(Particle(pos=points[0]), Particle(pos=points[-1])))
         return (particles, links)
+
 ##############################################################################################
