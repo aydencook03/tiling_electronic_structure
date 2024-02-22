@@ -7,20 +7,21 @@ from system import Particle, Link
 
 class Shape(object):
     """
-    Abstractly represents a shape (regular polygon) with a position, rotation, and side count.
+    Abstractly represents a shape (regular polygon) with a position, rotation, side count, and side length.
     """
 
-    def __init__(self, side_count, pos=Vec(0, 0), rotation=None):
+    def __init__(self, side_count, side_length=1, pos=Vec(0, 0), rotation=None):
         self.side_count = side_count
+        self.side_length = side_length
         self.pos = pos
         self.rotation = rotation if rotation is not None else - \
-            0*((side_count - 1) % 2)*pi/side_count
+            0*((side_count - 1) % 2)*pi/side_count  # need to figure this out
 
     def copy(self, pos):
         """
         Returns a copy of the shape at a new position.
         """
-        return Shape(self.side_count, pos=pos, rotation=self.rotation)
+        return Shape(self.side_count, side_length=self.side_length, pos=pos, rotation=self.rotation)
 
     def points(self):
         """
@@ -31,7 +32,8 @@ class Shape(object):
         for i in range(self.side_count):
             angle = self.rotation + i*step_angle
             pos = self.pos + \
-                Vec.new_polar(1 / (2*sin(pi/self.side_count)), angle)
+                Vec.new_polar(self.side_length /
+                              (2*sin(pi/self.side_count)), angle)
             points.append(pos)
         return points
 
@@ -44,12 +46,12 @@ class Shape(object):
         edge_midpoint = (point_1 + point_2) / 2
         edge_vector = point_2 - point_1
         edge_angle = edge_vector.angle()
-        dist_to_center = 1 / (2*tan(pi / side_count))
+        dist_to_center = self.side_length / (2*tan(pi / side_count))
         new_pos = edge_midpoint + \
             Vec.new_polar(dist_to_center, edge_angle - pi / 2)
         # point perpendicular to edge, then if it's even sided adjust by an amount of the internal angle
         new_angle = edge_angle - pi/2 - ((side_count - 1) % 2)*pi/side_count
-        return Shape(side_count, pos=new_pos, rotation=new_angle)
+        return Shape(side_count, side_length=self.side_length, pos=new_pos, rotation=new_angle)
 
     def __eq__(self, other):
         return (self.side_count == other.side_count and
