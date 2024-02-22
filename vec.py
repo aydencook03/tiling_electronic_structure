@@ -6,6 +6,15 @@ PRECISION = 10
 
 
 class Vec:
+    """
+    A 2d vector object.
+    
+    This consolidates a lot of the math. By rounding values to PRECISION digits we are able to
+    define __hash__ and __eq__, which allows us to keep prevent duplications due to floating point errors.
+
+    This hashability carries forward to the other object types like shapes and particles that use Vec, allowing
+    us to use sets to prevent duplications.
+    """
     def __init__(self, x, y):
         self.x = round(float(x), PRECISION)
         self.y = round(float(y), PRECISION)

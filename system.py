@@ -4,6 +4,9 @@ from vec import Vec
 
 
 class Particle:
+    """
+    A simple particle object that keeps track of a position and any groups that it may belong to.
+    """
     def __init__(self, groups=set(), pos=Vec(0., 0.)):
         self.groups = groups
         self.pos = pos
@@ -18,6 +21,9 @@ class Particle:
 
 
 class Link:
+    """
+    Represents a connection between two particles.
+    """
     def __init__(self, particle_1, particle_2):
         self.particles = frozenset((particle_1, particle_2))
 
@@ -31,6 +37,9 @@ class Link:
 
 
 class System:
+    """
+    A system of particles and connections between those particles.
+    """
     def __init__(self):
         self.particles = set()
         self.links = set()
@@ -52,6 +61,9 @@ class System:
         return links
 
     def particles_in_group(self, group):
+        """
+        Returns the set of all of the particles that belong to a specified group.
+        """
         particles = set()
         for particle in self.particles:
             if group in particle.groups:
@@ -59,6 +71,9 @@ class System:
         return particles
 
     def render(self, pyplot, debug=False, title="Tiling"):
+        """
+        A simple helper function to quickly render to a matplotlib instance.
+        """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
         for particle in self.particles:
