@@ -7,6 +7,7 @@ class Particle:
     """
     A simple particle object that keeps track of a position and any groups that it may belong to.
     """
+
     def __init__(self, groups=set(), pos=Vec(0., 0.)):
         self.groups = groups
         self.pos = pos
@@ -24,6 +25,7 @@ class Link:
     """
     Represents a connection between two particles.
     """
+
     def __init__(self, particle_1, particle_2):
         self.particles = frozenset((particle_1, particle_2))
 
@@ -40,6 +42,7 @@ class System:
     """
     A system of particles and connections between those particles.
     """
+
     def __init__(self):
         self.particles = set()
         self.links = set()

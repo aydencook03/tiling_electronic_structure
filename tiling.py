@@ -9,10 +9,12 @@ class Shape(object):
     """
     Abstractly represents a shape (regular polygon) with a position, rotation, and side count.
     """
+
     def __init__(self, side_count, pos=Vec(0, 0), rotation=None):
         self.side_count = side_count
         self.pos = pos
-        self.rotation = rotation if rotation is not None else -0*((side_count - 1) % 2)*pi/side_count
+        self.rotation = rotation if rotation is not None else - \
+            0*((side_count - 1) % 2)*pi/side_count
 
     def copy(self, pos):
         """
@@ -64,6 +66,7 @@ class Tiling(object):
     """
     Represents a collection of shapes.
     """
+
     def __init__(self):
         self.shapes = set()
 
