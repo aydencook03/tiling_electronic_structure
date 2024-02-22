@@ -58,17 +58,16 @@ class System:
                 particles.add(particle)
         return particles
 
-    def render(self, pyplot, color="black", debug=False, title="Tiling"):
+    def render(self, pyplot, debug=False, title="Tiling"):
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
         for particle in self.particles:
             pos = particle.pos
-            axes.scatter(pos.x, pos.y, color=color)
+            axes.scatter(pos.x, pos.y, color="black")
         for link in self.links:
             x = [part.pos.x for part in link.particles]
             y = [part.pos.y for part in link.particles]
-            axes.plot(x, y, color=color)
-        axes.set_xlabel('x')
+            axes.plot(x, y, color="black")
         axes.set_ylabel('y')
         axes.set_aspect("equal")
         if debug:

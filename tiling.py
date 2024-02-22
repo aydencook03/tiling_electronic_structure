@@ -1,5 +1,3 @@
-# Inspired by https://github.com/fogleman/Tiling
-
 from math import pi, tan, sin
 from vec import Vec
 from system import Particle, Link
@@ -8,10 +6,10 @@ from system import Particle, Link
 
 
 class Shape(object):
-    def __init__(self, side_count, pos=Vec(0, 0), rotation=0):
+    def __init__(self, side_count, pos=Vec(0, 0), rotation=None):
         self.side_count = side_count
         self.pos = pos
-        self.rotation = rotation
+        self.rotation = rotation if rotation is not None else -0*((side_count - 1) % 2)*pi/side_count
 
     def copy(self, pos):
         return Shape(self.side_count, pos=pos, rotation=self.rotation)
