@@ -84,17 +84,13 @@ for i in range(3):
     triangle_4 = tiling.add_adjacent(triangle_2, 2, 3)
     triangle_5 = tiling.add_adjacent(triangle_4, 2, 3)
 
+##############################################################################################
+# If ran from the command line
 
-particles, links = tiling.to_system()
+
+if __name__ == "__main__":
+    system = System()
+    tiling.add_to_system(system)
+    system.render(plot, vertices=False)
 
 ##############################################################################################
-# Make a system of particles & links
-
-system = System()
-system.add_particles(particles)
-system.add_links(links)
-
-##############################################################################################
-# Render the system
-
-system.render(plot)

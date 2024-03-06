@@ -73,25 +73,27 @@ class System:
                 particles.add(particle)
         return particles
 
-    def render(self, pyplot, debug=False, title="Tiling"):
+    def render(self, pyplot, debug=False, title="Tiling", vertices=True, edges=True):
         """
         A simple helper function to quickly render to a matplotlib instance.
         """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
-        for particle in self.particles:
-            pos = particle.pos
-            axes.scatter(pos.x, pos.y, color="black")
-        for link in self.links:
-            x = [part.pos.x for part in link.particles]
-            y = [part.pos.y for part in link.particles]
-            axes.plot(x, y, color="black")
-        axes.set_ylabel('y')
+        if vertices:
+            for particle in self.particles:
+                pos = particle.pos
+                axes.scatter(pos.x, pos.y, color="black")
+        if edges:
+            for link in self.links:
+                x = [part.pos.x for part in link.particles]
+                y = [part.pos.y for part in link.particles]
+                axes.plot(x, y, color="black")
+        axes.set_xlabel("x")
+        axes.set_ylabel("y")
         axes.set_aspect("equal")
         if debug:
             print("Particle Count: {}".format(len(self.particles)))
             print("Link Count: {}".format(len(self.links)))
         pyplot.show()
-
 
 ##############################################################################################

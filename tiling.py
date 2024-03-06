@@ -98,7 +98,7 @@ class Tiling(object):
             self.add(shape)
         return duplicates
 
-    def to_system(self):
+    def add_to_system(self, system):
         """
         Returns the sets of particles and links associated with all of the shapes' vertices and edges.
         """
@@ -112,6 +112,9 @@ class Tiling(object):
                 particles.update((start, end))
                 links.add(Link(start, end))
             links.add(Link(Particle(pos=points[0]), Particle(pos=points[-1])))
+        if system is not None:
+            system.add_particles(particles)
+            system.add_links(links)
         return (particles, links)
 
 ##############################################################################################
