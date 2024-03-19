@@ -1,7 +1,7 @@
 from vec import Vec
 from system import System
 from tiling import Shape, Tiling
-import matplotlib.pyplot as plot
+import matplotlib.pyplot as pyplot
 
 ##############################################################################################
 # The 1-Uniform Tilings
@@ -188,11 +188,13 @@ TILINGS = [hexagon, octagon_square, dodecagon_hexagon_square, dodecagon_triangle
            square_triangle_square, hexagon_triangle_triangle, triangle]
 
 ##############################################################################################
-# If ran from the command line
+# Run this module from the command line to see the tilings
+
+
 if __name__ == "__main__":
     for tiling in TILINGS:
         system = System()
         tiling().add_to_system(system)
-        system.render(plot, vertices=False, title=tiling.__name__)
+        system.render(pyplot, vertices=False, title=tiling.__name__)
 
 ##############################################################################################
