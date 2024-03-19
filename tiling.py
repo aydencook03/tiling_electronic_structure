@@ -10,12 +10,11 @@ class Shape(object):
     Abstractly represents a shape (regular polygon) with a position, rotation, side count, and side length.
     """
 
-    def __init__(self, side_count, side_length=1, pos=Vec(0, 0), rotation=None):
+    def __init__(self, side_count, side_length=1, pos=Vec(0, 0), rotation=0):
         self.side_count = side_count
         self.side_length = side_length
         self.pos = pos
-        self.rotation = rotation if rotation is not None else - \
-            0*((side_count - 1) % 2)*pi/side_count  # need to figure this out
+        self.rotation = rotation
 
     def copy(self, pos):
         """
