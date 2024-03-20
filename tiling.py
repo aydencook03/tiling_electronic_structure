@@ -16,12 +16,6 @@ class Shape(object):
         self.pos = pos
         self.rotation = rotation
 
-    def copy(self, pos):
-        """
-        Returns a copy of the shape at a new position.
-        """
-        return Shape(self.side_count, side_length=self.side_length, pos=pos, rotation=self.rotation)
-
     def points(self):
         """
         Calculates and returns a list of points associated with the vertices of the shape.
@@ -78,33 +72,13 @@ class Tiling(object):
         self.shapes.add(shape)
         return shape
 
-    def add_adjacent(self, to_shape, edge, side_count):
-        """
-        Adds a new shape with `side_count` sides that is adjacent to the edge of another shape.
-        """
-        new_shape = to_shape.adjacent(edge, side_count)
-        self.add(new_shape)
-        return new_shape
-
-    def duplicate(self, pos):
-        """
-        Duplicates the current set of shapes at another position.
-        """
-        duplicates = []
-        for shape in self.shapes:
-            duplicates.append(shape.copy(pos))
-        for shape in duplicates:
-            self.add(shape)
-        return duplicate
-
-    def add_unit_pattern(self, unit, side_length=1, pos=Vec(0, 0), rotation=0, depth=3):
+    def add_unit_pattern(self, unit_generator, side_length=1, pos=Vec(0, 0), rotation=0, depth=1):
         repeats = set()
-        unit(self, side_length, pos, rotation, repeats)
+        unit_generator(self, side_length, pos, rotation, repeats)
         if depth > 1:
             for shape in repeats:
-                self.add_unit_pattern(unit, side_length=side_length,
-                                 pos=shape.pos, rotation=rotation, depth=depth-1)
-
+                self.add_unit_pattern(unit_generator, side_length=side_length,
+                                      pos=shape.pos, rotation=rotation, depth=depth-1)
         return self
 
     def add_to_system(self, system):

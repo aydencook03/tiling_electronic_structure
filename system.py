@@ -8,7 +8,7 @@ class Particle:
     A simple particle object that keeps track of a position and any groups that it may belong to.
     """
 
-    def __init__(self, groups=set(), pos=Vec(0., 0.)):
+    def __init__(self, groups=set(), pos=Vec(0, 0)):
         self.groups = groups
         self.pos = pos
 
@@ -73,17 +73,17 @@ class System:
                 particles.add(particle)
         return particles
 
-    def render(self, pyplot, debug=False, title="Tiling", vertices=True, edges=True):
+    def render(self, pyplot, debug=False, title="Tiling", particles=True, links=True):
         """
         A simple helper function to quickly render to a matplotlib instance.
         """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
-        if vertices:
+        if particles:
             for particle in self.particles:
                 pos = particle.pos
                 axes.scatter(pos.x, pos.y, color="black")
-        if edges:
+        if links:
             for link in self.links:
                 x = [part.pos.x for part in link.particles]
                 y = [part.pos.y for part in link.particles]
