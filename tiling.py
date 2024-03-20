@@ -86,16 +86,26 @@ class Tiling(object):
         self.add(new_shape)
         return new_shape
 
-    def duplicate(self, offset):
+    def duplicate(self, pos):
         """
-        Duplicates the current set of shapes at an offset.
+        Duplicates the current set of shapes at another position.
         """
         duplicates = []
         for shape in self.shapes:
-            duplicates.append(shape.copy(shape.pos + offset))
+            duplicates.append(shape.copy(pos))
         for shape in duplicates:
             self.add(shape)
-        return duplicates
+        return duplicate
+
+    def add_unit_pattern(self, unit, side_length=1, pos=Vec(0, 0), rotation=0, depth=3):
+        repeats = set()
+        unit(self, side_length, pos, rotation, repeats)
+        if depth > 1:
+            for shape in repeats:
+                self.add_unit_pattern(unit, side_length=side_length,
+                                 pos=shape.pos, rotation=rotation, depth=depth-1)
+
+        return self
 
     def add_to_system(self, system):
         """
