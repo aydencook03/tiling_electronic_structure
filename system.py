@@ -73,7 +73,7 @@ class System:
                 particles.add(particle)
         return particles
 
-    def render(self, pyplot, debug=False, title="Tiling", particles=True, links=True):
+    def render(self, pyplot, debug=False, title="Tiling", particles=True, links=True, png=False):
         """
         A simple helper function to quickly render to a matplotlib instance.
         """
@@ -94,6 +94,9 @@ class System:
         if debug:
             print("Particle Count: {}".format(len(self.particles)))
             print("Link Count: {}".format(len(self.links)))
-        pyplot.show()
+        if png:
+            pyplot.savefig("images/{}.png".format(title), dpi=400)
+        else:
+            pyplot.show()
 
 ##############################################################################################
