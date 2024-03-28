@@ -84,11 +84,10 @@ class Tiling(object):
         if not called:
             self.lattice_vectors = [repeats[0].pos - pos, repeats[1].pos - pos]
             self.unit_coordinates = []
-            self.center = pos
             for point in self.points():
                 basis_1, basis_2 = self.lattice_vectors
                 x = Vec.cross(point - pos, basis_2)/Vec.cross(basis_1, basis_2)
-                y = Vec.cross(point - pos, basis_1)/Vec.cross(basis_1, basis_2)
+                y = Vec.cross(point - pos, basis_1)/Vec.cross(basis_2, basis_1)
                 self.unit_coordinates.append([x, y])
         if depth > 1:
             for shape in repeats:
@@ -113,10 +112,6 @@ class Tiling(object):
         if system is not None:
             system.add_particles(particles)
             system.add_links(links)
-
-        system.test = [self.center,
-                       self.lattice_vectors, self.unit_coordinates]
-
         return (particles, links)
 
 ##############################################################################################

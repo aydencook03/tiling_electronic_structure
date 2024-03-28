@@ -88,16 +88,6 @@ class System:
                 x = [part.pos.x for part in link.particles]
                 y = [part.pos.y for part in link.particles]
                 axes.plot(x, y, color="black")
-
-        for basis in self.test[1]:
-            x, y = self.test[0].x, self.test[0].y
-            axes.plot([x, basis.x+x],[y,basis.y+y], color="green")
-
-        for coord in self.test[2]:
-            x, y = self.test[0].x, self.test[0].y
-            pos = coord[0]*self.test[1][0] + coord[1]*self.test[1][1]
-            axes.plot([x,pos.x+x], [y,pos.y+y], color="blue")
-        
         axes.set_xlabel("x")
         axes.set_ylabel("y")
         axes.set_aspect("equal")

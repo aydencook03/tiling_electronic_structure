@@ -96,7 +96,8 @@ def triangle_square(tiling, side_length, pos, rotation, repeats):
             triangle_2 = tiling.add(square_2.adjacent(j*2+1, 3))
             triangle_3 = tiling.add(triangle_2.adjacent(2*j, 3))
             repeats.append(triangle_3.adjacent((j+2) % 3, 4))
-            repeats.append(square_2.adjacent(0, 4))  # not needed, but looks nicer
+            # not needed, but looks nicer
+            repeats.append(square_2.adjacent(0, 4))
 
 
 def square_triangle_square(tiling, side_length, pos, rotation, repeats):
@@ -134,7 +135,8 @@ def triangle(tiling, side_length, pos, rotation, repeats):
     for i in range(3):
         triangle_2 = tiling.add(triangle.adjacent(i, 3))
         repeats.append(triangle_2.adjacent(0, 3))
-        repeats.append(triangle_2.adjacent(2, 3))  # not needed, but looks nicer
+        # not needed, but looks nicer
+        repeats.append(triangle_2.adjacent(2, 3))
 
 ##############################################################################################
 # List of the unit tilings in this module
