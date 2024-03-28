@@ -64,9 +64,6 @@ class Tiling(object):
 
     def __init__(self):
         self.shapes = set()
-        self.lattice_vectors = []
-        self.unit_coordinates = []
-        self.center = []
 
     def add(self, shape):
         """
@@ -86,12 +83,13 @@ class Tiling(object):
         unit_generator(self, side_length, pos, rotation, repeats)
         if not called:
             self.lattice_vectors = [repeats[0].pos - pos, repeats[1].pos - pos]
+            self.unit_coordinates = []
             self.center = pos
             for point in self.points():
                 basis_1, basis_2 = self.lattice_vectors
-                point -= pos
-                self.unit_coordinates.append([point.project(
-                    basis_1), point.project(basis_2)])
+                x = Vec.cross(point - pos, basis_2)/Vec.cross(basis_1, basis_2)
+                y = Vec.cross(point - pos, basis_1)/Vec.cross(basis_1, basis_2)
+                self.unit_coordinates.append([x, y])
         if depth > 1:
             for shape in repeats:
                 self.add_unit_pattern(unit_generator, side_length=side_length,

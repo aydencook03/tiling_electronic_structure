@@ -51,9 +51,6 @@ class Vec:
     def rotated(self, angle):
         return Vec.new_polar(self.mag(), angle + self.angle())
 
-    def project(self, vector):
-        return Vec.dot(self, vector)/vector.mag_squared()
-
     def __mul__(self, scalar):
         return Vec(self.x*scalar, self.y*scalar)
 
