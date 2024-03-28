@@ -64,6 +64,9 @@ class Tiling(object):
 
     def __init__(self):
         self.shapes = set()
+        self.lattice_vectors = []
+        self.unit_coordinates = []
+        self.center = []
 
     def add(self, shape):
         """
@@ -72,13 +75,27 @@ class Tiling(object):
         self.shapes.add(shape)
         return shape
 
-    def add_unit_pattern(self, unit_generator, side_length=1, pos=Vec(0, 0), rotation=0, depth=1):
-        repeats = set()
+    def points(self):
+        points = set()
+        for shape in self.shapes:
+            points.update(shape.points())
+        return points
+
+    def add_unit_pattern(self, unit_generator, side_length=1, pos=Vec(0, 0), rotation=0, depth=1, called=False):
+        repeats = []
         unit_generator(self, side_length, pos, rotation, repeats)
+        if not called:
+            self.lattice_vectors = [repeats[0].pos - pos, repeats[1].pos - pos]
+            self.center = pos
+            for point in self.points():
+                basis_1, basis_2 = self.lattice_vectors
+                point -= pos
+                self.unit_coordinates.append([point.project(
+                    basis_1), point.project(basis_2)])
         if depth > 1:
             for shape in repeats:
                 self.add_unit_pattern(unit_generator, side_length=side_length,
-                                      pos=shape.pos, rotation=rotation, depth=depth-1)
+                                      pos=shape.pos, rotation=rotation, depth=depth-1, called=True)
         return self
 
     def add_to_system(self, system):
@@ -98,6 +115,10 @@ class Tiling(object):
         if system is not None:
             system.add_particles(particles)
             system.add_links(links)
+
+        system.test = [self.center,
+                       self.lattice_vectors, self.unit_coordinates]
+
         return (particles, links)
 
 ##############################################################################################
