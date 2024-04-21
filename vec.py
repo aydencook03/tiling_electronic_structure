@@ -1,6 +1,6 @@
-from math import sin, cos, sqrt, acos, atan2, isclose
+from math import sin, cos, sqrt, acos, atan2
 
-GRANULARITY = 1e-1  # define the granularity for rounding and comparison
+PRECISION = 10
 
 ##############################################################################################
 
@@ -17,9 +17,8 @@ class Vec:
     """
 
     def __init__(self, x, y):
-        # Round the values to the nearest granularity step
-        self.x = round(float(x) / GRANULARITY) * GRANULARITY
-        self.y = round(float(y) / GRANULARITY) * GRANULARITY
+        self.x = float(x)
+        self.y = float(y)
 
     @staticmethod
     def new_polar(r, angle):
@@ -74,11 +73,11 @@ class Vec:
         return self.mag()
 
     def __eq__(self, other):
-        # Use the granularity to check if two Vecs are close enough to be considered equal
-        return isinstance(other, Vec) and isclose(self.x, other.x, abs_tol=GRANULARITY) and isclose(self.y, other.y, abs_tol=GRANULARITY)
+        x_close = round(self.x, PRECISION) == round(other.x, PRECISION)
+        y_close = round(self.y, PRECISION) == round(other.y, PRECISION)
+        return isinstance(other, Vec) and x_close and y_close
 
     def __hash__(self):
-        return hash((self.x, self.y))
-
+        return hash((round(self.x, PRECISION), round(self.y, PRECISION)))
 
 ##############################################################################################

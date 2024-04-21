@@ -128,9 +128,9 @@ class Tiling(object):
                                       pos=shape.pos, rotation=rotation, depth=depth-1, called=True)
         return self
 
-    def render_full(self, pyplot, debug=False, title="Tiling", show_points=True, show_edges=True, png=False):
+    def render_full(self, pyplot, debug=False, title="Tiling", show_points=False, show_edges=True, png=False):
         """
-        A simple helper function to quickly render a full tiling to a matplotlib instance.
+        A function to render a full tiling to a matplotlib instance.
         """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
@@ -140,7 +140,8 @@ class Tiling(object):
                 if debug:
                     import random
                     axes.scatter(point.x - 0.2 + random.random()
-                                 * 0.4, point.y, color="black")
+                                 * 0.4, point.y - 0.2 + random.random()
+                                 * 0.4, color="black")
                 else:
                     axes.scatter(point.x, point.y, color="black")
         if show_edges:
