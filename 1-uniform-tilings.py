@@ -1,4 +1,3 @@
-from system import System
 from tiling import Shape, Tiling
 import matplotlib.pyplot as pyplot
 
@@ -152,8 +151,6 @@ UNITS = [hexagon, octagon_square, dodecagon_hexagon_square, dodecagon_triangle,
 
 if __name__ == "__main__":
     for unit in UNITS:
-        system = System()
-        Tiling().add_unit_pattern(unit, depth=4).add_to_system(system)
-        system.render(pyplot, particles=False, title=unit.__name__)
+        Tiling().add_unit_pattern(unit, depth=1).render_full(pyplot, title=unit.__name__, debug=True)
 
 ##############################################################################################

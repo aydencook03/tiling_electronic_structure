@@ -1,6 +1,22 @@
 from math import pi, tan, sin
 from vec import Vec
-from system import Particle, Link
+
+##############################################################################################
+
+
+class Edge:
+    """
+    Represents a **hashable** connection between two points.
+    """
+
+    def __init__(self, point_1, point_2):
+        self.points = frozenset((point_1, point_2))
+
+    def __eq__(self, other):
+        return isinstance(other, Edge) and self.points == other.points
+
+    def __hash__(self):
+        return hash(self.points)
 
 ##############################################################################################
 
@@ -72,46 +88,82 @@ class Tiling(object):
         self.shapes.add(shape)
         return shape
 
-    def points(self):
+    def points_edges(self):
+        """
+        Returns the lists of points and edges (pairs of point indices) associated with the tiling.
+        """
         points = set()
+        edges = set()
         for shape in self.shapes:
-            points.update(shape.points())
-        return points
+            shape_points = shape.points()
+            for i, point in enumerate(shape_points):
+                start = point
+                end = shape_points[(i+1) % shape.side_count]
+                points.update((start, end))
+                edges.add(Edge(start, end))
+            edges.add(Edge(shape_points[0], shape_points[-1]))
+        return_points = list(points)
+        return_edges = []
+        for edge in edges:
+            edge_points = list(edge.points)
+            return_edges.append([return_points.index(edge_points[0]),
+                                 return_points.index(edge_points[1])])
+        return (return_points, return_edges)
 
     def add_unit_pattern(self, unit_generator, side_length=1, pos=Vec(0, 0), rotation=0, depth=1, called=False):
         repeats = []
         unit_generator(self, side_length, pos, rotation, repeats)
         if not called:
             self.lattice_vectors = [repeats[0].pos - pos, repeats[1].pos - pos]
-            self.unit_coordinates = []
-            for point in self.points():
+            points, self.hop_pairs = self.points_edges()
+            self.unit_coordinates = [None]*len(points)
+            for i, point in enumerate(points):
                 basis_1, basis_2 = self.lattice_vectors
                 x = Vec.cross(point - pos, basis_2)/Vec.cross(basis_1, basis_2)
                 y = Vec.cross(point - pos, basis_1)/Vec.cross(basis_2, basis_1)
-                self.unit_coordinates.append([x, y])
+                self.unit_coordinates[i] = [x, y]
         if depth > 1:
             for shape in repeats:
                 self.add_unit_pattern(unit_generator, side_length=side_length,
                                       pos=shape.pos, rotation=rotation, depth=depth-1, called=True)
         return self
 
-    def add_to_system(self, system):
+    def render_full(self, pyplot, debug=False, title="Tiling", show_points=True, show_edges=True, png=False):
         """
-        Returns the sets of particles and links associated with all of the shapes' vertices and edges.
+        A simple helper function to quickly render a full tiling to a matplotlib instance.
         """
-        particles = set()
-        links = set()
-        for shape in self.shapes:
-            points = shape.points()
-            for i, point in enumerate(points):
-                start = Particle(pos=point)
-                end = Particle(pos=points[(i+1) % shape.side_count])
-                particles.update((start, end))
-                links.add(Link(start, end))
-            links.add(Link(Particle(pos=points[0]), Particle(pos=points[-1])))
-        if system is not None:
-            system.add_particles(particles)
-            system.add_links(links)
-        return (particles, links)
+        figure = pyplot.figure(title)
+        axes = figure.add_subplot()
+        points, edges = self.points_edges()
+        if show_points:
+            for point in points:
+                if debug:
+                    import random
+                    axes.scatter(point.x - 0.2 + random.random()
+                                 * 0.4, point.y, color="black")
+                else:
+                    axes.scatter(point.x, point.y, color="black")
+        if show_edges:
+            for edge in edges:
+                x = [points[i].x for i in edge]
+                y = [points[i].y for i in edge]
+                axes.plot(x, y, color="black")
+        axes.set_xlabel("x")
+        axes.set_ylabel("y")
+        axes.set_aspect("equal")
+        if debug:
+            print(title)
+            print("Point List Count: {}".format(len(points)))
+            print("Point Set Count: {}".format(len(set(points))))
+            print("Edge List Count: {}".format(len(edges)))
+            print("Edge Set Count: {}\n".format(
+                len(set(map(lambda edge: Edge(*edge), edges)))))
+        if png:
+            pyplot.savefig("images/{}.png".format(title), dpi=400)
+        else:
+            pyplot.show()
+
+    def render_unit(self):
+        pass
 
 ##############################################################################################
