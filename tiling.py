@@ -164,7 +164,7 @@ class Tiling(object):
         else:
             pyplot.show()
 
-    def render_unit(self, pyplot, title="Tiling Unit"):
+    def render_unit(self, pyplot, title="Tiling Unit", png=False):
         """
         Utility function to render all of the unit cell data.
         """
@@ -193,6 +193,9 @@ class Tiling(object):
         axes.set_xlabel("x")
         axes.set_ylabel("y")
         axes.set_aspect("equal")
-        pyplot.show()
+        if png:
+            pyplot.savefig("images/{}.png".format(title), dpi=400)
+        else:
+            pyplot.show()
 
 ##############################################################################################

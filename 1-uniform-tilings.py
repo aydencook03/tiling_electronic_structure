@@ -21,8 +21,7 @@ def octagon_square(tiling, side_length, pos, rotation, repeats):
     octagon = tiling.add(
         Shape(8, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(4):
-        square = tiling.add(octagon.adjacent(2*i, 4))
-        repeats.append(tiling.add(octagon.adjacent(2*i+1, 8)))
+        repeats.append(octagon.adjacent(2*i+1, 8))
 
 
 def dodecagon_hexagon_square(tiling, side_length, pos, rotation, repeats):
@@ -33,7 +32,6 @@ def dodecagon_hexagon_square(tiling, side_length, pos, rotation, repeats):
         Shape(12, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(6):
         square = tiling.add(dodecagon.adjacent(2*i, 4))
-        hexagon = tiling.add(dodecagon.adjacent(2*i+1, 6))
         repeats.append(square.adjacent(0, 12))
 
 
@@ -45,7 +43,7 @@ def dodecagon_triangle(tiling, side_length, pos, rotation, repeats):
         Shape(12, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(6):
         triangle = tiling.add(dodecagon.adjacent(2*i, 3))
-        repeats.append(tiling.add(dodecagon.adjacent(2*i+1, 12)))
+        repeats.append(dodecagon.adjacent(2*i+1, 12))
 
 
 def square(tiling, side_length, pos, rotation, repeats):
@@ -65,7 +63,7 @@ def hexagon_square_triangle(tiling, side_length, pos, rotation, repeats):
     hexagon = tiling.add(
         Shape(6, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(6):
-        square = tiling.add(hexagon.adjacent(i, 4))
+        square = hexagon.adjacent(i, 4)
         triangle = tiling.add(square.adjacent(1, 3))
         repeats.append(square.adjacent(0, 6))
 
@@ -77,8 +75,8 @@ def hexagon_triangle(tiling, side_length, pos, rotation, repeats):
     hexagon = tiling.add(
         Shape(6, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(6):
-        triangle = tiling.add(hexagon.adjacent(i, 3))
-        repeats.append(tiling.add(triangle.adjacent(0, 6)))
+        triangle = hexagon.adjacent(i, 3)
+        repeats.append(triangle.adjacent(0, 6))
 
 
 def triangle_square(tiling, side_length, pos, rotation, repeats):
@@ -88,11 +86,11 @@ def triangle_square(tiling, side_length, pos, rotation, repeats):
     square = tiling.add(
         Shape(4, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(2):
-        square_2 = tiling.add(square.adjacent(i*2, 4))
+        square_2 = square.adjacent(i*2, 4)
         triangle = tiling.add(square.adjacent(i*2+1, 3))
         for j in range(2):
-            triangle_2 = tiling.add(square_2.adjacent(j*2+1, 3))
-            triangle_3 = tiling.add(triangle_2.adjacent(2*j, 3))
+            triangle_2 = square_2.adjacent(j*2+1, 3)
+            triangle_3 = triangle_2.adjacent(2*j, 3)
             repeats.append(triangle_3.adjacent((j+2) % 3, 4))
             # not needed, but looks nicer
             repeats.append(square_2.adjacent(0, 4))
@@ -106,8 +104,7 @@ def square_triangle_square(tiling, side_length, pos, rotation, repeats):
         Shape(4, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(4):
         triangle = tiling.add(square.adjacent(i, 3))
-        square_2 = tiling.add(triangle.adjacent(0, 4))
-        triangle_2 = tiling.add(triangle.adjacent(2, 3))
+        triangle_2 = triangle.adjacent(2, 3)
         repeats.append(triangle_2.adjacent(0, 4))
 
 
@@ -119,8 +116,7 @@ def hexagon_triangle_triangle(tiling, side_length, pos, rotation, repeats):
         Shape(6, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(6):
         triangle = tiling.add(hexagon.adjacent(i, 3))
-        triangle_2 = tiling.add(triangle.adjacent(0, 3))
-        triangle_3 = tiling.add(triangle.adjacent(2, 3))
+        triangle_2 = triangle.adjacent(0, 3)
         repeats.append(triangle_2.adjacent(2, 6))
 
 
@@ -131,7 +127,7 @@ def triangle(tiling, side_length, pos, rotation, repeats):
     triangle = tiling.add(
         Shape(3, pos=pos, rotation=rotation, side_length=side_length))
     for i in range(3):
-        triangle_2 = tiling.add(triangle.adjacent(i, 3))
+        triangle_2 = triangle.adjacent(i, 3)
         repeats.append(triangle_2.adjacent(0, 3))
         # not needed, but looks nicer
         repeats.append(triangle_2.adjacent(2, 3))
@@ -151,7 +147,7 @@ UNITS = [hexagon, octagon_square, dodecagon_hexagon_square, dodecagon_triangle,
 if __name__ == "__main__":
     import matplotlib.pyplot as pyplot
     for unit in UNITS:
-        # Tiling().add_unit_pattern(unit, depth=4).render_full(pyplot, title=unit.__name__)
         Tiling().add_unit_pattern(unit).render_unit(pyplot, title="Unit: "+unit.__name__)
+        Tiling().add_unit_pattern(unit, depth=4).render_full(pyplot, title="Tiling: "+unit.__name__)
 
 ##############################################################################################
