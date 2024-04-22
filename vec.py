@@ -25,6 +25,10 @@ class Vec:
         return Vec(r*cos(angle), r*sin(angle))
 
     @staticmethod
+    def from_coords(coord_pair, basis_pair):
+        return coord_pair[0]*basis_pair[0] + coord_pair[1]*basis_pair[1]
+
+    @staticmethod
     def dot(vec1, vec2):
         return (vec1.x*vec2.x + vec1.y*vec2.y)
 

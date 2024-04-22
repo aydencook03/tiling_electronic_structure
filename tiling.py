@@ -130,7 +130,7 @@ class Tiling(object):
 
     def render_full(self, pyplot, debug=False, title="Tiling", show_points=False, show_edges=True, png=False):
         """
-        A function to render a full tiling to a matplotlib instance.
+        A function to render the full tiling to a matplotlib instance.
         """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
@@ -164,7 +164,35 @@ class Tiling(object):
         else:
             pyplot.show()
 
-    def render_unit(self):
-        pass
+    def render_unit(self, pyplot, title="Tiling Unit"):
+        """
+        Utility function to render all of the unit cell data.
+        """
+        basis = self.lattice_vectors
+        coords = self.unit_coordinates
+        pairs = self.hop_pairs
+        figure = pyplot.figure(title)
+        axes = figure.add_subplot()
+        for i, vec in enumerate(basis):
+            axes.quiver([0], [0], [vec.x], [vec.y],
+                        angles='xy', scale_units='xy', scale=1)
+            axes.annotate(str(i), xy=(vec.x, vec.y), xytext=(vec.x + 0.2, vec.y + 0.2),
+                          textcoords="offset points", fontsize=10)
+        for i, pair in enumerate(pairs):
+            start = Vec.from_coords(coords[pair[0]], basis)
+            end = Vec.from_coords(coords[pair[1]], basis)
+            mid = (start + end)/2
+            axes.plot([start.x, end.x], [start.y, end.y], color="blue")
+            axes.annotate(str(i), xy=(mid.x, mid.y), xytext=(mid.x + 0.2, mid.y + 0.2),
+                          textcoords="offset points", fontsize=10, color="blue")
+        for i, coord in enumerate(coords):
+            pos = Vec.from_coords(coord, basis)
+            axes.scatter([pos.x], [pos.y], color="red")
+            axes.annotate(str(i), xy=(pos.x, pos.y), xytext=(pos.x + 0.2, pos.y + 0.2),
+                          textcoords="offset points", fontsize=10, color="red")
+        axes.set_xlabel("x")
+        axes.set_ylabel("y")
+        axes.set_aspect("equal")
+        pyplot.show()
 
 ##############################################################################################
