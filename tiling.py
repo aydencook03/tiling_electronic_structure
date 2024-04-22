@@ -114,7 +114,9 @@ class Tiling(object):
         repeats = []
         unit_generator(self, side_length, pos, rotation, repeats)
         if not called:
-            self.lattice_vectors = [repeats[0].pos - pos, repeats[1].pos - pos]
+            basis_1, basis_2 = repeats[0].pos - pos, repeats[1].pos - pos
+            self.lattice_vectors = [basis_1, basis_2] if Vec.cross(
+                basis_1, basis_2) > 0 else [basis_2, basis_1]
             points, self.hop_pairs = self.points_edges()
             self.unit_coordinates = [None]*len(points)
             for i, point in enumerate(points):
