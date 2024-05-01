@@ -8,6 +8,8 @@ pythtb = "*"
 matplotlib = "*"
 
 [dev-packages]
+jupyterlab = "*"
+ipympl = "*"
 
 [requires]
 python_version = "3.11"
