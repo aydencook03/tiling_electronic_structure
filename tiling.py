@@ -111,12 +111,18 @@ class Tiling(object):
         return (return_points, return_edges)
 
     def add_unit_pattern(self, unit_generator, side_length=1, pos=Vec(0, 0), rotation=0, depth=1, called=False):
+        """
+        Uses a unit generator to generate a tiling and add it to the set of shapes.
+        Depth can be changed to vary how many times the unit is duplicated and tiled across the plane.
+        Automatically creates the associated lattice vectors, vertex (orbital) coordinates, and hopping pairs (edges).
+        """
         repeats = []
         unit_generator(self, side_length, pos, rotation, repeats)
         if not called:
             basis_1, basis_2 = repeats[0].pos - pos, repeats[1].pos - pos
             self.lattice_vectors = [basis_1, basis_2] if Vec.cross(
-                basis_1, basis_2) > 0 else [basis_2, basis_1]  # pythtb wants a right-handed coord system
+                # pythtb wants a right-handed coord system
+                basis_1, basis_2) > 0 else [basis_2, basis_1]
             points, self.hop_pairs = self.points_edges()
             self.unit_coordinates = [None]*len(points)
             for i, point in enumerate(points):
@@ -130,12 +136,14 @@ class Tiling(object):
                                       pos=shape.pos, rotation=rotation, depth=depth-1, called=True)
         return self
 
-    def render_full(self, pyplot, debug=False, title="Tiling", show_points=False, show_edges=True, png=False):
+    def render_full(self, pyplot, debug=False, title="Full Tiling", show_points=False, show_edges=True, png=False):
         """
-        A function to render the full tiling to a matplotlib instance.
+        Render the full tiling to a matplotlib instance.
+        This is helpful when creating a new unit to ensure that it properly tiles the plane.
         """
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
+        pyplot.title(title)
         points, edges = self.points_edges()
         if show_points:
             for point in points:
@@ -169,12 +177,14 @@ class Tiling(object):
     def render_unit(self, pyplot, title="Tiling Unit", png=False):
         """
         Utility function to render all of the unit cell data.
+        Shows the index of each vertex, edge, and lattice vector so you can pick hopping parameters, onsite energies, etc.
         """
         basis = self.lattice_vectors
         coords = self.unit_coordinates
         pairs = self.hop_pairs
         figure = pyplot.figure(title)
         axes = figure.add_subplot()
+        pyplot.title(title)
         for i, vec in enumerate(basis):
             axes.quiver([0], [0], [vec.x], [vec.y],
                         angles='xy', scale_units='xy', scale=1)

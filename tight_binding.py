@@ -4,6 +4,13 @@ import pythtb as tb
 
 
 def tb_from_tiling(tiling, onsite_en=0.0, hop_amp=-1.0):
+    """
+    Takes a tiling with associated unit cell data and generates a tight-binding model from it.
+    Onsite energies can be specified as a single uniform value or as a list of values corresponding to
+        each individual orbital. If you need to know which orbital has which index, use the render_unit method.
+    Hopping amplitudes can be specified as a single uniform value or as a list of values corresponding to
+        each individual hopping pair (edge). If you need to know the index of each edge, use the render_unit method.
+    """
     tb_model = tb.tb_model(
         2, 2, lat=[[vec.x, vec.y] for vec in tiling.lattice_vectors], orb=tiling.unit_coordinates)
     if isinstance(onsite_en, float):
@@ -18,18 +25,21 @@ def tb_from_tiling(tiling, onsite_en=0.0, hop_amp=-1.0):
     return tb_model
 
 
-def plot_band_structure(tb_model, mesh_size=(50, 50), title="Band Structure", legend=False):
+def plot_band_structure(pyplot, tb_model, mesh_size=(50, 50), title="Band Structure", legend=False):
+    """
+    Calculate and plot the band structure of the tiling.
+    """
     k_mesh = tb_model.k_uniform_mesh(mesh_size)
     eigen_vals = tb_model.solve_all(k_mesh)
-    fig = plt.figure(title)
+    fig = pyplot.figure(title)
     ax = fig.add_subplot()
-    plt.title(title)
+    pyplot.title(title)
     for i, band in enumerate(eigen_vals):
         ax.plot(band, label="Band {}".format(i+1))
     ax.set_xlabel("k-point index")
     ax.set_ylabel("Energy")
-    plt.legend() if legend else None
-    plt.show()
+    pyplot.legend() if legend else None
+    pyplot.show()
 
 ##############################################################################################
 
@@ -37,12 +47,13 @@ def plot_band_structure(tb_model, mesh_size=(50, 50), title="Band Structure", le
 if __name__ == "__main__":
     from uniform_tilings_1 import UNITS
     from tiling import Tiling
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as pyplot
     for unit in UNITS:
         tiling = Tiling().add_unit_pattern(unit)
         model = tb_from_tiling(tiling)
         # tiling.render_unit(pyplot)
         # model.visualize(0, dir_second=1)
-        plot_band_structure(model, title=unit.__name__+" Band Structure")
+        plot_band_structure(
+            pyplot, model, title="Band Structure: "+unit.__name__)
 
 ##############################################################################################
