@@ -24,9 +24,9 @@ def tb_from_tiling(tiling, onsite_en=0.0, hop_amp=-1.0):
         # Set hoppings within the same unit cell
         tb_model.set_hop(hop_amp[i], pair[0], pair[1], ind_R=[0, 0])
         # Add selective inter-unit cell hoppings
-        if tiling.is_boundary_pair(pair):
+        '''if tiling.is_boundary_pair(pair):
             tb_model.set_hop(hop_amp[i], pair[0], pair[1], ind_R=[1, 0])
-            tb_model.set_hop(hop_amp[i], pair[0], pair[1], ind_R=[0, 1])
+            tb_model.set_hop(hop_amp[i], pair[0], pair[1], ind_R=[0, 1])'''
     return tb_model
 
 
@@ -57,7 +57,8 @@ if __name__ == "__main__":
     for unit in UNITS:
         tiling = Tiling().add_unit_pattern(unit)
         model = tb_from_tiling(tiling)
-        # tiling.render_unit(pyplot)
+        # tiling.render_unit(pyplot, title="Tiling Unit: "+unit.__name__)
+        # tiling.render_full(pyplot, title="Full Tiling: "+unit.__name__)
         # model.visualize(0, dir_second=1)
         plot_band_structure(
             pyplot, model, title="Band Structure: "+unit.__name__)
@@ -67,9 +68,10 @@ if __name__ == "__main__":
     from uniform_tilings_1 import hexagon_square_triangle as unit
     from tiling import Tiling
     import matplotlib.pyplot as pyplot
-    tiling = Tiling().add_unit_pattern(unit)
+    tiling = Tiling().add_unit_pattern(unit, depth=2)
     model = tb_from_tiling(tiling)
-    tiling.render_unit(pyplot)
+    tiling.render_unit(pyplot, title="Tiling Unit: "+unit.__name__)
+    tiling.render_full(pyplot, title="Full Tiling: "+unit.__name__)
     model.visualize(dir_first=0, dir_second=1, draw_hoppings=True)
     plot_band_structure(
         pyplot, model, title="Band Structure: "+unit.__name__)
