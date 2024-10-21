@@ -1,91 +1,88 @@
 # Tiling Electronic Structure
 
-Investigating the electronic structure of k-uniform planar tilings.
+Exploring novel electronic structures through k-uniform planar tilings to discover interesting and useful materials.
 
-## Examples
+## Project Overview
 
-|     |     |     |
-|-----|-----|-----|
-| ![Tiling Unit: square triangle square](./images/Tiling_Unit:_square_triangle_square.png) | ![Full Tiling: square triangle square](./images/Full_Tiling:_square_triangle_square.png) | ![Band Structure: square triangle square](./images/Band_Structure:_square_triangle_square.png) |
-| ![Tiling Unit: dodecagon hexagon square](./images/Tiling_Unit:_dodecagon_hexagon_square.png) | ![Full Tiling: dodecagon hexagon square](./images/Full_Tiling:_dodecagon_hexagon_square.png) | ![Band Structure: dodecagon hexagon square](./images/Band_Structure:_dodecagon_hexagon_square.png) |
-| ![Tiling Unit: hexagon square triangle](./images/Tiling_Unit:_hexagon_square_triangle.png) | ![Full Tiling: hexagon square triangle](./images/Full_Tiling:_hexagon_square_triangle.png) | ![Band Structure: hexagon square triangle](./images/Band_Structure:_hexagon_square_triangle.png) |
-| ![Tiling Unit: hexagon triangle triangle](./images/Tiling_Unit:_hexagon_triangle_triangle.png) | ![Full Tiling: hexagon triangle triangle](./images/Full_Tiling:_hexagon_triangle_triangle.png) | ![Band Structure: hexagon triangle triangle](./images/Band_Structure:_hexagon_triangle_triangle.png) |
-| ![Tiling Unit: octagon square](./images/Tiling_Unit:_octagon_square.png) | ![Full Tiling: octagon square](./images/Full_Tiling:_octagon_square.png) | ![Band Structure: octagon square](./images/Band_Structure:_octagon_square.png) |
-
-## Overview: K-Uniform Planar Tilings and Tight-Binding Model Analysis
-
-This project focuses on generating k-uniform planar tilings and analyzing them as atomic lattices. Python is employed to create these tilings, and their electronic properties are investigated using the tight-binding model.
+This project combines geometric tiling patterns with tight-binding model analysis to investigate unique electronic properties. By systematically generating k-uniform planar tilings and treating them as atomic lattices, we aim to uncover new materials with interesting or useful characteristics that could lead to technological advancements in various fields.
 
 ## Key Components
 
-1. **Tiling Generation**: K-uniform planar tilings are generated using Python. These tilings serve as the foundation for the investigation. Each tiling is treated as a lattice composed of atoms, with their connectivity representing atomic bonds.
+1. **Tiling Generation**: Python-based creation of k-uniform planar tilings, serving as the foundation for atomic lattice structures.
+2. **Tight-Binding Model**: Application of the tight-binding model to simulate electron behavior in the lattice.
+3. **Band Structure Analysis**: Exploration of electronic band structures for different tilings and atomic compositions.
 
-2. **Tight-Binding Model**: The tight-binding model is utilized to investigate the electronic structure of these tilings. This model is well-suited for understanding the electronic properties of crystals by treating the electrons as bound to specific atomic sites and allowing them to hop between neighboring sites.
+## Features
 
-3. **Band Structure Analysis**: The electronic band structure of different tilings is explored using the tight-binding model. The tilings are composed of various species of atoms, and the effects of changing these atomic types on the resulting electronic properties are studied.
+- Generation of 1-uniform tilings
+- Visualization of tiling patterns and their corresponding band structures
+- Customizable tight-binding model parameters for different atomic species
+- Efficient handling of geometric calculations and tiling manipulations
 
-## Files in This Repository
+## Examples
 
-- **vec.py**: This file contains a 2D vector class with utility functions for vector operations, which are essential for handling geometric calculations in tiling generation and analysis.
-- **uniform_tilings_1.py**: This file defines unit pattern generators for various 1-uniform tilings, providing functions to create specific tiling patterns using geometric shapes.
-- **tiling.py**: This file provides classes and methods to represent and manipulate tilings as collections of shapes, including functionality for rendering and analyzing the tilings.
-- **tight_binding.py**: This file implements the tight-binding model to compute the electronic band structure for the generated tilings, including functions to create and visualize the model.
-- **Pipfile**: Defines the dependencies required for this project.
+| Tiling Unit | Full Tiling | Band Structure |
+|-------------|-------------|-----------------|
+| ![Tiling Unit: square triangle square](./images/Tiling_Unit:_square_triangle_square.png) | ![Full Tiling: square triangle square](./images/Full_Tiling:_square_triangle_square.png) | ![Band Structure: square triangle square](./images/Band_Structure:_square_triangle_square.png) |
+| ![Tiling Unit: dodecagon hexagon square](./images/Tiling_Unit:_dodecagon_hexagon_square.png) | ![Full Tiling: dodecagon hexagon square](./images/Full_Tiling:_dodecagon_hexagon_square.png) | ![Band Structure: dodecagon hexagon square](./images/Band_Structure:_dodecagon_hexagon_square.png) |
 
-## Getting Started
+## Installation
 
-### Prerequisites
+1. Ensure you have Python installed.
+2. Clone this repository:
 
-Ensure that [Python 3.x](https://www.python.org/downloads/) is installed. The dependencies for the project can be found in the `Pipfile`. Use [Pipenv](https://pipenv.pypa.io/en/latest/) to manage these dependencies.
+   ```bash
+   git clone https://github.com/aydencook03/tiling_electronic_structure.git
+   cd tiling_electronic_structure
+   ```
 
-### Installation
-
-1. **Install Pipenv**: If Pipenv is not already installed, it can be added using pip:
+3. Install dependencies using Pipenv:
 
    ```bash
    pip install pipenv
-   ```
-
-2. **Install Dependencies**: Navigate to the project directory and run the following command to install the required dependencies:
-
-   ```bash
    pipenv install
    ```
 
-   This will install all the necessary dependencies listed in the `Pipfile`, including:
-   - pythtb
-   - matplotlib
+## Usage
 
-3. **Activate the Pipenv Shell**: To start a Pipenv shell, which ensures the environment is correctly set up, use:
+1. Activate the Pipenv shell:
 
    ```bash
    pipenv shell
    ```
 
-This setup will ensure that all necessary packages are installed and the environment is ready for development or execution of the project scripts.
+2. Generate and visualize tiling patterns:
 
-## Running the Scripts
+   ```bash
+   python uniform_tilings_1.py
+   ```
 
-The project includes several Python modules that can be executed as standalone scripts to visualize and analyze different tiling patterns and their electronic structures.
+3. Analyze band structures:
 
-### Running `uniform_tilings_1.py`
+   ```bash
+   python tight_binding.py
+   ```
 
-This script generates and displays various 1-uniform tiling patterns. To run the script, use the following command:
+## Project Structure
 
-```bash
-python uniform_tilings_1.py
-```
+- `vec.py`: 2D vector class for geometric calculations
+- `uniform_tilings_1.py`: Unit pattern generators for 1-uniform tilings
+- `tiling.py`: Classes for tiling representation and manipulation
+- `tight_binding.py`: Tight-binding model implementation for electronic structure computation
 
-This will render each tiling unit and its full tiling pattern using matplotlib.
+## Roadmap
 
-### Running `tight_binding.py`
+For information about upcoming features and planned improvements, please refer to the [TODO.md](TODO.md) file in the project repository.
 
-This script demonstrates the creation of a tight-binding model from a tiling pattern and plots its band structure. To execute the script, use:
+## License
 
-```bash
-python tight_binding.py
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-By default, this script uses the `hexagon_square_triangle` tiling pattern. It will render the tiling unit, the full tiling, and visualize the band structure using matplotlib.
+## Acknowledgments
 
-Ensure that you have all the necessary dependencies installed and the environment set up as described in the "Getting Started" section before running these scripts.
+- [PythTB](https://www.physics.rutgers.edu/pythtb/) for tight-binding calculations
+- [Matplotlib](https://matplotlib.org/) for visualization
+
+## Contact
+
+For questions or collaborations, please open an issue or contact [Your Name] at [your.email@example.com].
