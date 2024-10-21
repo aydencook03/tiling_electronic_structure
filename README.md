@@ -85,4 +85,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For questions or collaborations, please open an issue or contact [Your Name] at [your.email@example.com].
+For questions or collaborations, please open an issue or contact Ayden Cook at <cookayden2003@gmail.com>.
