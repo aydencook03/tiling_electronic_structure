@@ -4,10 +4,13 @@
     - [X] Create clean functions to generate a tiling
     - [X] Algorithm to repeat the tilings
     - [X] 1-uniform tilings
-    - [ ] Fix duplication issue
-    - [ ] Irregular polygon tilings
-        - [ ] Shape => RegPolygon?
-        - [ ] IrregPolygon object?
+    - [X] Fix duplication issue
+    - [ ] Tiling object
+        - [ ] translation symmetries (vectors of translation symmetry)
+        - [ ] rotation symmetries (if quasicrystal. nullifies translation symmetries)
+        - [ ] unit coordinates
+        - [ ] points_edges(depth)
+        - [ ] plot(depth)
     - [ ] 2-uniform tilings
     - [ ] 3-uniform tilings & beyond
 
@@ -25,8 +28,6 @@
     - [ ] Automatic classification of band structure
 
 - Parallel Plane Rotations:
-    - [ ] Tiling ⇒ Layer
-        - [ ] Remove position and rotation from Layer?
-    - [ ] Layers object. Can hold any number of layers, and can plot the layer tilings and layer units in 3d.
+    - [ ] Layers: can hold any number of layers, and can plot the layer tilings and layer units in 3d.
         - [ ] Can specify origin point for each layer as well as a rotation around a point
         - [ ] [layer, pos, rot]
