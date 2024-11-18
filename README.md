@@ -1,5 +1,7 @@
 # Tiling Electronic Structure
 
+(WORK IN PROGRESS)
+
 Exploring novel electronic structures through k-uniform planar tilings to discover interesting and useful materials.
 
 ## Project Overview
