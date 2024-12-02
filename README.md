@@ -16,7 +16,7 @@ This project combines geometric tiling patterns with tight-binding model analysi
 
 ## Features
 
-- Generation of 1-uniform tilings
+- Geometric engine for generating and analyzing 2D atomic lattice structures
 - Visualization of tiling patterns and their corresponding band structures
 - Customizable tight-binding model parameters for different atomic species
 - Efficient handling of geometric calculations and tiling manipulations
